@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="row" id="wrapper">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2>Fast reader</h2>
+            <div class="bs-callout bs-callout-primary">Practice fast reading by pasting a text, choosing the speed and
+                hitting start. </div>
+            <form action="#">
+                <textarea class="form-control" name="" id="" cols="30" rows="10" <></textarea>
+                <button href="#" class="btn btn-primary" id="start_btn">Start</button>
+                <button href="#" class="btn btn-primary" id="stop_btn">Pause</button>
+                <span class="speed-controls">Speed:
+                    <select class="form-control" name="speed" id="speed">
+                        <option value="100">100</option>
+                        <option value="150">150</option>
+                        <option value="200">200</option>
+                        <option value="250">250</option>
+                        <option value="300">300</option>
+                        <option value="350">350</option>
+                        <option value="400">400</option>
+                        <option value="450">450</option>
+                    </select>
+                </span>
+                <div id="text">
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <p>An sincerity so extremity he additions.Her yet there truth merit.Mrs all projecting favourable now
+        unpleasing.Son law garden chatty temper.Oh children provided to mr elegance marriage strongly.Off can
+        admiration prosperous now devonshire diminution law.
+
+        Spot of come to ever hand as lady meet on.Delicate contempt received two yet advanced.Gentleman as belonging
+        he commanded believing dejection in by.On no am winding chicken so behaved.Its preserved sex enjoyment new
+        way behaviour.Him yet devonshire celebrated especially.Unfeeling one provision are smallness resembled</p>
+    <script>
+        $(document).ready(function () {
+            $.fn.lighten = (function (index) {
+                var text = $(this).text();
+                text = text.split(" ");
+                text[index] = '<mark>' + text[index];
+                $(this).html(text.join(" "));
+            })
+        });
+
+        $("textarea").select(function (index) {
+            var text = $(this).text();
+            text = text.split(" ");
+            text[index] = '<mark>' + text[index];
+            $(this).html(text.join(" "));
+        });
+
+
+        $("#start_btn").on("click", function () {
+            index = 0;
+            stop();
+            start($("#text"), $("textarea").val());
+            $("#stop_btn").text("Pause");
+            isPaused = false;
+            return false;
+        });
+        $("#stop_btn").on("click", function () {
+            isPaused = !isPaused;
+            if (isPaused) {
+                stop();
+                $(this).text("Resume");
+            }
+            else {
+                start($("#text"), $("textarea").val());
+                $(this).text("Pause");
+            }
+            return false;
+        });
+
+        var timer;
+        var isPaused = true;
+        var index = 0;
+        function start(element, text) {
+            element.text(text);
+            var len = element.text().split(" ").length;
+            var speed = parseInt($("#speed").val()); //Words per minute
+            timer = setInterval(function () {
+                if (index >= len)
+                    clearInterval(timer);
+                else
+                    element.lighten(index++);
+            }, 60000.0 / speed);
+        }
+        function stop() {
+            clearInterval(timer);
+        }
+        });
+    </script>
+</body>
+
+</html>
